@@ -1,0 +1,170 @@
+C51 COMPILER V9.54   CLOCK                                                                 11/05/2026 15:24:56 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE CLOCK
+OBJECT MODULE PLACED IN .\Objects\clock.obj
+COMPILER INVOKED BY: D:\keil51jian32\C51\BIN\C51.EXE clock.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\clock.lst) TABS(2) OBJECT(.\Objects\clock.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include "Delay.h"
+   3          #include "KEY.h"
+   4          #include "LCD1602.h"
+   5          #include "cai1.h"
+   6          #include "Timer2.h"
+   7          unsigned char asec=0, amin=0, ahour=0;
+   8          unsigned char change=0; 
+   9          unsigned int time_count = 0; 
+  10          int clock()
+  11          {
+  12   1          unsigned char keyh;
+  13   1          LCD_Init();
+  14   1          Timer2_Init();
+  15   1          LCD_ShowString(1,1,"Clock:"); 
+  16   1          LCD_ShowString(2,1,"  :  :");
+  17   1          
+  18   1          while(1)
+  19   1          {
+  20   2              keyh = Key();
+  21   2              LCD_ShowNum(2,1,ahour,2); 
+  22   2              LCD_ShowNum(2,4,amin,2);
+  23   2              LCD_ShowNum(2,7,asec,2);
+  24   2              if(keyh==1)
+  25   2              {
+  26   3                  change++;
+  27   3                  if(change>3) 
+  28   3                  change=0;
+  29   3                  if(change==0) 
+  30   3                  { 
+  31   4                    LCD_ShowString(1,10,"r");
+  32   4                    
+  33   4                  }
+  34   3                  else if(change==1) 
+  35   3                  LCD_ShowString(1,10,"h");//我选小时
+  36   3                  else if(change==2) 
+  37   3                  LCD_ShowString(1,10,"m");//分钟
+  38   3                  else LCD_ShowString(1,10,"s");//秒
+  39   3              }
+  40   2              
+  41   2                if(change!=0)
+  42   2              {
+  43   3                      if(keyh==2)//加佳佳
+  44   3                      {
+  45   4                          if(change== 1) 
+  46   4                       { 
+  47   5                         ahour++; 
+  48   5                         if(ahour>=24) 
+  49   5                          ahour=0; 
+  50   5                       }//控制小时加
+  51   4                          else if(change== 2) 
+  52   4                      { 
+  53   5                          amin++; 
+  54   5                          if(amin>=60) 
+C51 COMPILER V9.54   CLOCK                                                                 11/05/2026 15:24:56 PAGE 2   
+
+  55   5                          amin=0; 
+  56   5                      }//控制分钟加
+  57   4                          else if(change== 3) 
+  58   4                        { 
+  59   5                            asec++;
+  60   5                            if(asec>=60)
+  61   5                            asec=0; 
+  62   5                        }//控制秒加
+  63   4                  }
+  64   3                  if(keyh==3)  //减减减
+  65   3                  {
+  66   4                        if(change== 1) 
+  67   4                        { 
+  68   5                          if(ahour==0)
+  69   5                          ahour=23; 
+  70   5                          else ahour--; 
+  71   5                        }//控制小时减
+  72   4                        
+  73   4                        else if(change== 2) 
+  74   4                       { 
+  75   5                         if(amin==0)
+  76   5                         amin=59;
+  77   5                         else amin--;
+  78   5                       }//控制分钟减
+  79   4                       
+  80   4                        else if(change== 3) 
+  81   4                        { if(asec==0) 
+  82   5                          asec=59; 
+  83   5                          else asec--;
+  84   5                        }//控制秒减
+  85   4                       Delay(200);
+  86   4                  }
+  87   3              }
+  88   2              
+  89   2              Delay(200);
+  90   2              if(keyh==4)
+  91   2             {  
+  92   3                  if(keyh==4)
+  93   3                 {
+  94   4                           return 0;
+  95   4                  }
+  96   3              }
+  97   2          }
+  98   1          
+  99   1          return 0;
+ 100   1      }
+ 101          void Timer2_ISR() interrupt 5
+ 102          {
+ 103   1          static unsigned int count;
+ 104   1          
+ 105   1      
+ 106   1          if(TF2 == 1)        
+ 107   1          {
+ 108   2              TF2 = 0;      
+ 109   2          }
+ 110   1          else if(EXF2 == 1)  
+ 111   1          {
+ 112   2              EXF2 = 0;       
+ 113   2          }
+ 114   1          
+ 115   1          count++;
+ 116   1          
+C51 COMPILER V9.54   CLOCK                                                                 11/05/2026 15:24:56 PAGE 3   
+
+ 117   1      
+ 118   1          if(count >= 1000)
+ 119   1          {
+ 120   2              count = 0;
+ 121   2              
+ 122   2              if(change == 0)
+ 123   2              {
+ 124   3                  asec++;
+ 125   3                  if(asec >= 60)
+ 126   3                  {
+ 127   4                      asec = 0;
+ 128   4                      amin++;
+ 129   4                      if(amin >= 60)
+ 130   4                      {
+ 131   5                          amin = 0;
+ 132   5                          ahour++;
+ 133   5                          if(ahour >= 24)
+ 134   5                          {
+ 135   6                              ahour = 0;
+ 136   6                          }
+ 137   5                      }
+ 138   4                  }
+ 139   3              }
+ 140   2          }
+ 141   1      }
+*** WARNING C294 IN LINE 99 OF clock.c: unreachable code
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    391    ----
+   CONSTANT SIZE    =     22    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

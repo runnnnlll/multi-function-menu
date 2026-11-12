@@ -1,0 +1,242 @@
+C51 COMPILER V9.54   MAIN                                                                  11/05/2026 15:24:55 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\keil51jian32\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings
+                    -\main.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include "Delay.h"
+   3          #include "KEY.h"
+   4          #include "LCD1602.h"
+   5          #include "cai1.h"
+   6          unsigned int b=0;
+   7          unsigned int c=0;
+   8          unsigned int d=0;
+   9          void main()
+  10          {
+  11   1        unsigned char menu;
+  12   1      
+  13   1      
+  14   1        while(1)
+  15   1        {
+  16   2          LCD_Init();
+  17   2              LCD_ShowString(1,1,"1.LED");
+  18   2              LCD_ShowString(1,9,"2.UART");
+  19   2              LCD_ShowString(2,1,"3.TIMER");
+  20   2              menu = cai1();
+  21   2          Delay(200);
+  22   2          if(menu==1)
+  23   2            {
+  24   3              LCD_ShowString(1,1,"LED");
+  25   3              LCD_ShowString(2,1,"light");
+  26   3              LCD_ShowString(2,13,"PWM");
+  27   3              LED();
+*** WARNING C206 IN LINE 27 OF main.c: 'LED': missing function-prototype
+  28   3            }
+  29   2          else if(menu==2)
+  30   2          {
+  31   3            LCD_ShowString(1,1,"UART");
+  32   3            LCD_ShowString(2,1,"send");
+  33   3            LCD_ShowString(2,8,"rec");
+  34   3            UART1();
+*** WARNING C206 IN LINE 34 OF main.c: 'UART1': missing function-prototype
+  35   3          }
+  36   2          else if(menu==3)
+  37   2          {
+  38   3            LCD_ShowString(1,1,"TIMER");
+  39   3            LCD_ShowString(2,1,"timers");
+  40   3            LCD_ShowString(2,9,"clock");
+  41   3            TIMER();
+*** WARNING C206 IN LINE 41 OF main.c: 'TIMER': missing function-prototype
+  42   3          }
+  43   2        }
+  44   1          
+  45   1      }
+  46          int LED()
+  47                {
+  48   1              unsigned char keyb;
+  49   1              while(1)
+  50   1              {
+  51   2                keyb=Key();
+C51 COMPILER V9.54   MAIN                                                                  11/05/2026 15:24:55 PAGE 2   
+
+  52   2                if(keyb==1)
+  53   2               {
+  54   3                b++;
+  55   3                if(b==3)
+  56   3                {b=1;Delay(10);}
+  57   3                if(b==1)
+  58   3                { 
+  59   4                  LCD_ShowString(2,6,"*");
+  60   4                  LCD_ShowString(2,16," ");
+  61   4                  Delay(10);
+  62   4                }
+  63   3                if(b==2)
+  64   3                {
+  65   4                  LCD_ShowString(2,6," ");
+  66   4                  LCD_ShowString(2,16,"*");
+  67   4                  Delay(10);
+  68   4                }
+  69   3                
+  70   3              }
+  71   2                if(keyb==2)
+  72   2              {
+  73   3                if(b==1)
+  74   3                {
+  75   4                  light();
+*** WARNING C206 IN LINE 75 OF main.c: 'light': missing function-prototype
+  76   4                   LCD_ShowString(1,1,"LED           ");
+  77   4                   LCD_ShowString(2,1,"light*");
+  78   4                   LCD_ShowString(2,13,"PWM ");
+  79   4                  b=1;
+  80   4                }
+  81   3                if(b==2)
+  82   3                {
+  83   4                  PWM();
+*** WARNING C206 IN LINE 83 OF main.c: 'PWM': missing function-prototype
+  84   4                  LCD_ShowString(1,1,"LED           ");
+  85   4                      LCD_ShowString(2,1,"light ");
+  86   4                      LCD_ShowString(2,13,"PWM*");
+  87   4                      b = 2;
+  88   4                }
+  89   3                
+  90   3              }
+  91   2              if(keyb==3)
+  92   2              { 
+  93   3                Delay(20);
+  94   3                return 0;
+  95   3              }
+  96   2            }
+  97   1              
+  98   1          }
+  99          int UART1()
+ 100          {
+ 101   1        unsigned char keyc;
+ 102   1              while(1)
+ 103   1              {
+ 104   2                keyc=Key();
+ 105   2                if(keyc==1)
+ 106   2               {
+ 107   3                c++;
+ 108   3                if(c==3)
+ 109   3                {c=1;Delay(10);}
+ 110   3                if(c==1)
+ 111   3                { 
+C51 COMPILER V9.54   MAIN                                                                  11/05/2026 15:24:55 PAGE 3   
+
+ 112   4                  LCD_ShowString(2,1,"send*");
+ 113   4                  LCD_ShowString(2,8,"rec ");
+ 114   4                  Delay(10);
+ 115   4                }
+ 116   3                if(c==2)
+ 117   3                {
+ 118   4                  LCD_ShowString(2,1,"send ");
+ 119   4                  LCD_ShowString(2,8,"rec*");
+ 120   4                  Delay(10);
+ 121   4                }
+ 122   3                
+ 123   3              }
+ 124   2                if(keyc==2)
+ 125   2              {
+ 126   3                if(c==1)
+ 127   3                {
+ 128   4                  send();
+*** WARNING C206 IN LINE 128 OF main.c: 'send': missing function-prototype
+ 129   4                  LCD_ShowString(1,1,"UART        ");
+ 130   4                  LCD_ShowString(2,1,"send*");
+ 131   4                  LCD_ShowString(2,8,"rec ");
+ 132   4                  c=1;
+ 133   4                }
+ 134   3                if(c==2)
+ 135   3                {
+ 136   4                  rec();
+*** WARNING C206 IN LINE 136 OF main.c: 'rec': missing function-prototype
+ 137   4                  LCD_ShowString(1,1,"UART        ");
+ 138   4                  LCD_ShowString(2,1,"send ");
+ 139   4                  LCD_ShowString(2,8,"rec*");
+ 140   4                  c=2;
+ 141   4                }
+ 142   3              }
+ 143   2              if(keyc==3)
+ 144   2              { 
+ 145   3                Delay(20);
+ 146   3                return 0;
+ 147   3              }
+ 148   2            }
+ 149   1              
+ 150   1          }
+ 151          int TIMER()
+ 152          {
+ 153   1        unsigned char keyf;
+ 154   1              while(1)
+ 155   1              {
+ 156   2                keyf=Key();
+ 157   2                if(keyf==1)
+ 158   2               {
+ 159   3                d++;
+ 160   3                if(d==3)
+ 161   3                {d=1;Delay(10);}
+ 162   3                if(d==1)
+ 163   3                { 
+ 164   4                  
+ 165   4                  LCD_ShowString(2,1,"timers*");
+ 166   4                  LCD_ShowString(2,9,"clock ");
+ 167   4                  Delay(10);
+ 168   4                }
+ 169   3                if(d==2)
+ 170   3                {
+ 171   4                  
+C51 COMPILER V9.54   MAIN                                                                  11/05/2026 15:24:55 PAGE 4   
+
+ 172   4                  LCD_ShowString(2,1,"timers ");
+ 173   4                  LCD_ShowString(2,9,"clock*");
+ 174   4                  Delay(10);
+ 175   4                }
+ 176   3                
+ 177   3              }
+ 178   2                if(keyf==2)
+ 179   2              {
+ 180   3                if(d==1)
+ 181   3                {
+ 182   4                  timers();
+*** WARNING C206 IN LINE 182 OF main.c: 'timers': missing function-prototype
+ 183   4                  LCD_ShowString(1,1,"TIMER");
+ 184   4                  LCD_ShowString(2,1,"timers*");
+ 185   4                  LCD_ShowString(2,7,"  clock ");
+ 186   4                  d=1;
+ 187   4                }
+ 188   3                if(d==2)
+ 189   3                {
+ 190   4                  clock();
+*** WARNING C206 IN LINE 190 OF main.c: 'clock': missing function-prototype
+ 191   4                  LCD_ShowString(1,1,"TIMER      ");
+ 192   4                  LCD_ShowString(2,1,"timers ");
+ 193   4                  LCD_ShowString(2,7,"  clock*");
+ 194   4                  d=2;
+ 195   4                }
+ 196   3              }
+ 197   2              if(keyf==3)
+ 198   2              { 
+ 199   3                Delay(20);
+ 200   3                return 0;
+ 201   3              }
+ 202   2            }
+ 203   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    974    ----
+   CONSTANT SIZE    =    206    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      6       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  9 WARNING(S),  0 ERROR(S)

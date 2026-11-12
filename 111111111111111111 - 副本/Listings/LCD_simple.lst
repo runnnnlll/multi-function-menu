@@ -1,0 +1,69 @@
+C51 COMPILER V9.60.7.0   LCD_SIMPLE                                                        11/30/2025 09:56:24 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE LCD_SIMPLE
+OBJECT MODULE PLACED IN .\Objects\LCD_simple.obj
+COMPILER INVOKED BY: D:\keil5\C51\BIN\C51.EXE LCD_simple.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\
+                    -LCD_simple.lst) TABS(2) OBJECT(.\Objects\LCD_simple.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include "Delay.h"
+   3          // 简化的LCD命令写入函数
+   4          void LCD_WriteCommand(unsigned char Command)
+   5          {
+   6   1          P2 = Command;  // 假设P2口连接LCD数据线
+   7   1          // 简化控制信号时序
+   8   1          // 根据实际硬件连接调整
+   9   1      }
+  10          
+  11          // 简化的LCD数据写入函数
+  12          void LCD_WriteData(unsigned char Data)
+  13          {
+  14   1          P2 = Data;  // 假设P2口连接LCD数据线
+  15   1          // 简化控制信号时序
+  16   1      }
+  17          
+  18          void LCD_SimpleInit()
+  19          {
+  20   1          // 最简化的初始化序列
+  21   1          Delay(15);
+  22   1          LCD_WriteCommand(0x38); // 8位数据接口，2行显示
+  23   1          Delay(5);
+  24   1          LCD_WriteCommand(0x0C); // 显示开，光标关
+  25   1          Delay(5);
+  26   1          LCD_WriteCommand(0x06); // 文字不动，地址自动+1
+  27   1          Delay(5);
+  28   1          LCD_WriteCommand(0x01); // 清屏
+  29   1          Delay(15);
+  30   1      }
+  31          
+  32          void LCD_ShowCharSimple(unsigned char x, unsigned char y, unsigned char chr)
+  33          {
+  34   1          unsigned char address;
+  35   1          
+  36   1          if (y == 0)
+  37   1              address = 0x80 + x;
+  38   1          else
+  39   1              address = 0xC0 + x;
+  40   1              
+  41   1          LCD_WriteCommand(address);
+  42   1          LCD_WriteData(chr);
+  43   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     85    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+C51 COMPILER V9.60.7.0   LCD_SIMPLE                                                        11/30/2025 09:56:24 PAGE 2   
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

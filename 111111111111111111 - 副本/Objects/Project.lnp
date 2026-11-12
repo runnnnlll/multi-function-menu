@@ -1,0 +1,16 @@
+".\Objects\main.obj",
+".\Objects\Delay.obj",
+".\Objects\key.obj",
+".\Objects\LCD1602.obj",
+".\Objects\cai1.obj",
+".\Objects\Timer0.obj",
+".\Objects\PWM.obj",
+".\Objects\light.obj",
+".\Objects\send.obj",
+".\Objects\rec.obj",
+".\Objects\timers.obj",
+".\Objects\Timer1.obj",
+".\Objects\clock.obj",
+".\Objects\Timer2.obj" 
+TO ".\Objects\Project" 
+PRINT(".\Listings\Project.m51") RAMSIZE(256) 
